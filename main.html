@@ -9,13 +9,25 @@
 <body>
     <div id="vue-table-0"></div>
     <script>
+        var edit = function (rowData) {
+            if (rowData.author === 'zard') {
+                return 'vue-input';
+            } else {
+                return 'vue-text';
+            }
+        }
 
-        var table0 = $('#vue-table-0').vue(vueGrid, {
-            id: 'vue-table-0',
+        var table0 = $('#vue-table-0').vueGrid({
             column: [{
                 head: '作者',
                 prop: 'author',
-                type: 'vue-text',
+                type: edit,
+                inputOption: {
+                    name: 'author',
+                    style: {
+                        width: '100px'
+                    }
+                },
             }, {
                 head: '公司',
                 prop: 'company',
@@ -23,7 +35,7 @@
                 inputOption: {
                     name: 'company',
                     style: {
-                        width: '100px'
+                        width: '50px'
                     }
                 },
             }],
@@ -54,7 +66,7 @@
                         company: 'geely',
                     });
                     return data;
-                }
+                },
             },
         });
 
@@ -66,22 +78,22 @@
         //     company: 'shinra',
         // }]);
 
-            // $('#main').vue(mainComp, {
-            //     type: 'vue-input',
-            //     inputOption: [{
-            //         name: 'card',
-            //         value: 'we are the world!',
-            //         style: {
-            //             width: '200px'
-            //         },
-            //     }, {
-            //         name: 'card',
-            //         value: 'we are the world!',
-            //         style: {
-            //             width: '100px'
-            //         }
-            //     }]
-            // });
+        // $('#main').vue(mainComp, {
+        //     type: 'vue-input',
+        //     inputOption: [{
+        //         name: 'card',
+        //         value: 'we are the world!',
+        //         style: {
+        //             width: '200px'
+        //         },
+        //     }, {
+        //         name: 'card',
+        //         value: 'we are the world!',
+        //         style: {
+        //             width: '100px'
+        //         }
+        //     }]
+        // });
 
     </script>
 </body>
