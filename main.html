@@ -19,12 +19,14 @@
 
         var table0 = $('#vue-table-0').vueGrid({
             column: [{
+								show: function (data) {return true},
                 head: '作者',
                 prop: 'author',
-                type: edit,
+                type: 'vue-input',
                 clazz: {red: true},
                 style: {width: '200px'},
                 inputOption: {
+										show: true,
                     name: 'author',
                     style: {
                         width: '100px'
@@ -35,6 +37,7 @@
                 prop: 'company',
                 type: 'vue-input',
                 inputOption: {
+										show: true,
                     name: 'company',
                     style: {
                         width: '50px'

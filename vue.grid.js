@@ -32,6 +32,9 @@ var Helper = {
             return !!target;
         }
     },
+    isEmptyObject: function (object) {
+				return object === undefined || object === null;
+		},
     // 空函数
     emptyOps: function (data) {
         return data;
@@ -46,13 +49,13 @@ var Filter = {
 		//是否显示过滤器(true则显示, false则隐藏)
     showHide: function (option, data) {
 		    var show;
-        if (!option.show) {
+        if (Helper.isEmptyObject(option.show)) {
 						show = true;
 				} else {
 						show = Helper.toBool(option.show, data);
 				}
 				var hide;
-        if (!option.hide) {
+        if (Helper.isEmptyObject(option.hide)) {
 						hide = false;
 				} else {
 						hide = Helper.toBool(option.hide, data);
