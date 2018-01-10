@@ -24,6 +24,14 @@ var Helper = {
             return [target];
         }
     },
+		// 尝试将target转换为布尔值
+    toBool: function (target, param) {
+        if ((typeof target) === 'function') {
+            return target(param);
+        } else {
+            return !!target;
+        }
+    },
     // 空函数
     emptyOps: function (data) {
         return data;
@@ -33,9 +41,23 @@ var Helper = {
 //将函数挂载到全局
 Vue.prototype.Helper = Helper;
 
+//全局过滤器
 var Filter = {
-    showHide: function (data) {
-        return data.show !== false && data.hide !== true;
+		//是否显示过滤器(true则显示, false则隐藏)
+    showHide: function (option, data) {
+		    var show;
+        if (!option.show) {
+						show = true;
+				} else {
+						show = Helper.toBool(option.show, data);
+				}
+				var hide;
+        if (!option.hide) {
+						hide = false;
+				} else {
+						hide = Helper.toBool(option.hide, data);
+				}
+        return show !== false && hide !== true;
     },
 };
 
@@ -71,6 +93,7 @@ var vueInput = Vue.extend({
                 :name="op.name"
                 :value="op.value || data[op.name]"
                 :class="op.clazz"
+								v-show="Filter.showHide(op, data)"
                 :style="op.style"
                 :placeholder="op.placeholder"
                 >
