@@ -22,6 +22,8 @@
                 head: '作者',
                 prop: 'author',
                 type: edit,
+                clazz: {red: true},
+                style: {width: '200px'},
                 inputOption: {
                     name: 'author',
                     style: {
@@ -36,6 +38,9 @@
                     name: 'company',
                     style: {
                         width: '50px'
+                    },
+                    clazz: {
+                        black: true,
                     }
                 },
             }],
@@ -49,34 +54,25 @@
             //         };
             //     },
             // },
-            data: [{
-                author: 'zard',
-                company: 'being',
-            }, {
-                author: 'draz',
-                company: 'shinra',
-            }],
-            filter: {
-                column: function (column) {
-                    return column;
-                },
-                data: function (data) {
-                    data.push({
-                        author: 'gost',
-                        company: 'geely',
-                    });
-                    return data;
-                },
+            // data: [{
+            //     author: 'zard',
+            //     company: 'being',
+            // }, {
+            //     author: 'draz',
+            //     company: 'shinra',
+            // }],
+            map: function (data) {
+                return data;
             },
         });
 
-        // table0.loadData([{
-        //     author: 'xxxxx',
-        //     company: 'being',
-        // }, {
-        //     author: 'yyyyy',
-        //     company: 'shinra',
-        // }]);
+        table0.loadData([{
+            author: 'zard',
+            company: 'being',
+        }, {
+            author: 'yyyyy',
+            company: 'shinra',
+        }]);
 
         // $('#main').vue(mainComp, {
         //     type: 'vue-input',
