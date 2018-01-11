@@ -36,7 +36,7 @@ var Helper = {
 				return object === undefined || object === null;
 		},
     // 空函数
-    emptyOps: function (data) {
+    emptyMap: function (data) {
         return data;
     },
 }
@@ -147,8 +147,8 @@ var vueGrid = Vue.extend({
         __data: { type: Array },
         // 该表格所关联的服务器地址, 请使用标准jquery ajax请求option
         ajax: { type: Object },
-        // 对column和data的过滤函数, 参数为对应的column或data定义, 请务必返回过滤后的结果
-        map: { type: Function },
+        // 如果设置了, 则数据(ajax或者loadData)会经过该函数处理之后再渲染, 务必返回数据, 否则表格将没有数据
+        dataFilter: { type: Function },
     },
     computed: {
         columnComputed: function () {
@@ -180,8 +180,16 @@ var vueGrid = Vue.extend({
     methods: {
         // 公有方法, 参数为数组类型的表格数据, 调用此方法则表格重新载入此数据
         // 此方法主要用于前端开发时可以方便开发人员调试页面
-        loadData: function (data) {
-            this.$props.__data = Helper.toArray(data);
+        loadData: function (data, filter) {
+            data = Helper.toArray(data);
+            if (filter) {
+                data = filter(data);
+            } else if (this.dataFilter) {
+                data = this.dataFilter(data);
+            } else {
+                // noops
+            }
+            this.$props.__data = data;
         },
         // 公有方法, 参数1为附加的ajax请求的参数对象或者无参数函数(返回对象), 注意如果原先已经含有同名参数, 则将覆盖原有参数
         // 参数2为返回data后的过滤器, 如果提供则覆盖原先filter.data过滤器
@@ -197,16 +205,8 @@ var vueGrid = Vue.extend({
                 ajaxOption.data = $.extend(ajaxData, aAjaxData);
                 $.ajax(ajaxOption)
                     .done(function (data) {
-                        var decidedFilter;
-                        if (filter) {
-                            decidedFilter = filter;
-                        } else if (props.filter && props.filter.data) {
-                            decidedFilter = props.filter.data;
-                        } else {
-                            decidedFilter = Helper.emptyOps;
-                        }
                         // 使用确定后的过滤器过滤然后加载数据
-                        _this.loadData(decidedFilter(data));
+                        _this.loadData(data, filter);
                     });
             }
         },
