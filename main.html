@@ -7,69 +7,81 @@
 </head>
 
 <body>
+        <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter">
     <div id="vue-table-0"></div>
     <script>
-        var edit = function (rowData) {
-            if (rowData.author === 'zard') {
-                return 'vue-input';
-            } else {
-                return 'vue-text';
-            }
-        }
+
+        var status = Number($('#bill-status').val());
 
         var table0 = $('#vue-table-0').vueGrid({
-            column: [{
-                show: function (data) { return true },
-                head: '作者',
-                prop: 'author',
-                type: 'vue-input',
-                clazz: { red: true },
-                style: { width: '200px' },
-                inputOption: {
-                    show: true,
-                    name: 'author',
-                    style: {
-                        width: '100px'
+            id: 'table-test',
+            list: [{
+                head: '序号',
+                vindex: '',
+            }, {
+                head: '选择',
+                vcheckbox: '',
+            }, {
+                head: '操作',
+                vbutton: [{
+                    value: '详细',
+                    click: function (row, allRow) {
+                        console.log(JSON.stringify(row));
                     },
+                }, {
+                    value: '删除',
+                    click: function (row, allRow) {
+                        Helper.remove(row, allRow);
+                    },
+                }, {
+                    value: '添加',
+                    click: function (row, allRow) {
+                        allRow.push({
+                        });
+                    },
+                }, {
+                    value: '保存',
+                    click: function (row, allRow) {
+                        console.log('保存中： ' + JSON.stringify(row));
+                    },
+                }, {
+                    value: '获取选择的行数据',
+                    click: function (row, allRow) {
+                        console.log('保存中： ' + JSON.stringify(table0.selectedRow()));
+                    },
+                }],
+            }, {
+                head: '作者',
+                vtext: {
+                    when: '_.author === "zard"',
+                    prop: 'author',
+                },
+                vinput: {
+                    prop: 'author',
+                    readonly: '_.author && _.author.startsWith("z")',
                 },
             }, {
                 head: '公司',
-                prop: 'company',
-                type: 'vue-input',
-                inputOption: {
-                    show: true,
-                    name: 'company',
-                    style: {
-                        width: '50px'
-                    },
-                    clazz: {
-                        black: true,
-                    }
+                vinput: {
+                    prop: 'company',
+                },
+                vtext: {
+                    prop: 'company',
                 },
             }],
-            // ajax: {
-            //     url: '/url',
-            //     type: 'get',
-            //     data: function () {
-            //         return {
-            //             a: 1,
-            //             b: 2,
-            //         };
-            //     },
-            // },
-            // data: [{
-            //     author: 'zard',
-            //     company: 'being',
-            // }, {
-            //     author: 'draz',
-            //     company: 'shinra',
-            // }],
-            dataFilter: function (data) {
-                return [data[0]];
+            row: {
+                dbclick: function () { },
             },
+            ajax: {
+            },
+            data: [],
         });
 
-        table0.loadData([{
+        var vblank = Vue.extend({
+            template: '<div>it is blank!</div>',
+        });
+
+        table0.data([{
             author: 'zard',
             company: 'being',
         }, {
