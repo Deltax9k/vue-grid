@@ -45,6 +45,7 @@
                         console.log('保存中： ' + JSON.stringify(row));
                     },
                 }, {
+                    when: '_.author === "zard"',
                     value: '获取选择的行数据',
                     click: function (row, allRow) {
                         console.log('保存中： ' + JSON.stringify(table0.selectedRow()));

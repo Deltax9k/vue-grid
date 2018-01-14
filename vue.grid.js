@@ -177,6 +177,7 @@ var vbutton = Helper.vueExtend(baseOption, {
             :title="divTitle">
             <input type="button"
                 v-for="op in Helper.toArray(option)"
+                v-if="showInput(op, data)"
                 :name="op.prop"
                 :value="op.value"
                 @click="doClick(op.click, data, allData)">
@@ -185,6 +186,9 @@ var vbutton = Helper.vueExtend(baseOption, {
     methods: {
         doClick: function (click, data, allData) {
             click && click.call(this, data, allData);
+        },
+        showInput: function (op, data) {
+            return Helper.toObject(op.when, data, true);
         },
     },
 });
